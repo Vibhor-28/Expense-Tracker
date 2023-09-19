@@ -8,7 +8,11 @@ class ExpenseItem extends StatelessWidget
   Widget build(context)
   {
     return const Card(
-      child: Text("Hello world"),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 16),
+        child: Column(
+          children: [],
+        ),),
     );
   }
 }
