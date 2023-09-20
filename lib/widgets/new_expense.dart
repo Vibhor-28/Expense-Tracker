@@ -9,9 +9,13 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  var Entered_value = '';
-  void _saveTitleInput(String inputvalue) {
-    Entered_value = inputvalue;
+  final _titlecontroller = TextEditingController();
+  final _amountcontroller = TextEditingController();
+  @override
+  void dispose() {
+    _titlecontroller.dispose();
+    _amountcontroller.dispose();
+    super.dispose();
   }
 
   @override
@@ -21,15 +25,47 @@ class _NewExpenseState extends State<NewExpense> {
       child: Column(
         children: [
           TextField(
-            onChanged: _saveTitleInput,
+            controller: _titlecontroller,
             maxLength: 50,
             decoration: const InputDecoration(label: Text("Title")),
           ),
           Row(
             children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountcontroller,
+                  decoration: const InputDecoration(
+                    label: Text("Amount"),
+                    prefixText: '\$',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    const Text("Selected date"),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.calendar_month))
+                  ],
+                ),
+              )
+            ],
+          ),
+          Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Cancel")),
               ElevatedButton(
                   onPressed: () {
-                    print(Entered_value);
+                    print(_titlecontroller.text);
+                    print(_amountcontroller.text);
                   },
                   child: const Text("Save Expense"))
             ],
