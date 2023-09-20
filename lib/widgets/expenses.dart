@@ -33,7 +33,11 @@ class _ExpensesState extends State<Expenses> {
 
   void _opemAddExpenseOverlay() {
     showModalBottomSheet(
-        context: context, builder: (ctx) => const NewExpense());
+        context: context,
+        builder: (ctx) => const NewExpense(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+        ) );
   }
 
   @override
