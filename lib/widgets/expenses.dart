@@ -30,13 +30,18 @@ class _ExpensesState extends State<Expenses> {
         category: Category.travel)
   ];
 
+  void _opemAddExpenseOverlay()
+  {
+      showModalBottomSheet(context: context, builder: builder)
+  }
+
   @override
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter App"),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+          IconButton(onPressed: _opemAddExpenseOverlay, icon: Icon(Icons.add)),
         ],
       ),
       body: Column(
