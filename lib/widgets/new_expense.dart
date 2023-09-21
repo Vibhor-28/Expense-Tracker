@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
+import 'package:intl/intl.dart';
+import 'package:expense_tracker/models/expense_constructor.dart';
+
+final date_formatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -11,11 +14,39 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titlecontroller = TextEditingController();
   final _amountcontroller = TextEditingController();
+  Category _selected_activity = Category.leisure;
+  DateTime? datepicked;
+
   @override
   void dispose() {
     _titlecontroller.dispose();
     _amountcontroller.dispose();
     super.dispose();
+  }
+
+  void PresentdatePicker() async {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+
+    final pickdate = await showDatePicker(
+        context: context,
+        initialDate: now,
+        firstDate: firstDate,
+        lastDate: now);
+
+    setState(() {
+      datepicked = pickdate;
+    });
+  }
+
+  void submitExpensedata() {
+    final enteredAmount = double.tryParse(_amountcontroller.text);
+    final amountInvalid = enteredAmount == null || enteredAmount <= 0;
+
+    if(_titlecontroller.text.isEmpty || amountInvalid || datepicked == null)
+    {
+      
+    }
   }
 
   @override
@@ -46,27 +77,55 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               Expanded(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Selected date"),
+                    Text(datepicked == null
+                        ? "No date Selected"
+                        : date_formatter.format(datepicked!)),
                     IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.calendar_month))
+                        onPressed: PresentdatePicker,
+                        icon: const Icon(Icons.calendar_month))
                   ],
                 ),
               )
             ],
           ),
+          const SizedBox(
+            height: 16,
+          ),
           Row(
             children: [
+              DropdownButton(
+                  value: _selected_activity,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(
+                            category.name.toUpperCase(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+                    setState(() {
+                      _selected_activity = value;
+                    });
+                  }),
+              const Spacer(),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   child: const Text("Cancel")),
               ElevatedButton(
-                  onPressed: () {
-                    print(_titlecontroller.text);
-                    print(_amountcontroller.text);
-                  },
+                  onPressed: submitExpensedata,
                   child: const Text("Save Expense"))
             ],
           )
