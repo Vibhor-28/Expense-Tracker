@@ -69,12 +69,14 @@ class _NewExpenseState extends State<NewExpense> {
         title: _titlecontroller.text,
         date: datepicked!,
         category: _selected_activity));
+
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16,48,16,16),
       child: Column(
         children: [
           TextField(

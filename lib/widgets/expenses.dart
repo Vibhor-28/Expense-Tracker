@@ -33,6 +33,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (ctx) => NewExpense(addExpense),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)));
