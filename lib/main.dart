@@ -12,6 +12,15 @@ void main() {
         appBarTheme: AppBarTheme().copyWith(
           backgroundColor: colortheme.onPrimaryContainer,
           foregroundColor: colortheme.primaryContainer
+        ),
+        cardTheme: CardTheme().copyWith(
+          margin: EdgeInsets.symmetric(horizontal: 16 , vertical: 8),
+          color: colortheme.secondaryContainer
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: colortheme.primary
+          )
         )
       ),
       home:const  Expenses(),
